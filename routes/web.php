@@ -1,18 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\AuthController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+//тут форма регистрации
+Route::get('/', [MainController::class, 'index'])->name('login');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//защищенный маршрут
+Route::middleware('auth:sanctum')->get('/protected', [MainController::class, 'show']);
+
+//тут регистрация и создание токена
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+//тут получаем токен
+Route::post('/token', [AuthController::class, 'token']);
