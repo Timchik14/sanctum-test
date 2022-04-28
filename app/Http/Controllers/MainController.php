@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function index()
+    public function register()
     {
-        return view('index');
+        return view('register');
     }
 
-    public function show()
+    public function login()
+    {
+        return view('login');
+    }
+
+    public function protected()
     {
         return view('show');
     }

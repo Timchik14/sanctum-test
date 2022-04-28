@@ -2,42 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(Request $request, RegisterRequest $registerRequest)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:3'],
-        ]);
+        $validated = $registerRequest->validated();
 
         $user = User::create($validated);
 
-        $token = $user->createToken($request->name); //->plainTextToken
-//        dd($token);
+        $token = $user->createToken($request->name)->plainTextToken;
+
+        return new JsonResponse(['token' => $token], 200);
     }
 
-    public function token(Request $request)
+    public function login(Request $request, LoginRequest $loginRequest)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
-        ]);
+        $loginRequest->validated();
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            //как вывести в стандатные ошибки?
-            return 'error';
+        if (!$user || !($request->password == $user->password)) {
+            return 'Неверное имя пользователя или пароль';
         }
 
-        //создаст новый?
-        return $user->createToken($request->name)->plainTextToken;
+        return new JsonResponse(['token' => $user->createToken($user->name)->plainTextToken], 200);
     }
 }
