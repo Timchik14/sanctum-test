@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Services\MainService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class MainController extends Controller
 {
@@ -18,13 +18,18 @@ class MainController extends Controller
         return view('login');
     }
 
-    public function protected(Request $request)
+    public function logout()
     {
-        return view('show');
+        return view('logout');
     }
 
-    public function second()
+    public function protected(MainService $mainService)
     {
-        return view('second');
+        return $mainService->can('server:update', auth()->user());
+    }
+
+    public function second(MainService $mainService)
+    {
+        return $mainService->can('place-orders', auth()->user());
     }
 }

@@ -9,37 +9,38 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Services\LoginService;
+use App\Services\RegisterService;
 
 class AuthController extends Controller
 {
-    public function register(Request $request, RegisterRequest $registerRequest)
+    public function register(RegisterService $registerService, Request $request, RegisterRequest $registerRequest)
     {
-        $validated = $registerRequest->validated();
-
-        $user = User::create($validated);
-        Auth::login($user);
+        $user = User::create($registerService->dataPrepare($registerRequest));
+        $user->addToAuth();
 
         $token = $user
-            ->createToken($request->name, ['place-orders'])
+            ->createToken($request->name, ['server:update'])
             ->plainTextToken;
 
-        $textToken = new TextToken(['token' => $token,]);
-        $user->textToken()->save($textToken);
-
+        $user->saveTextToken(new TextToken(['token' => $token]));
 
         return new JsonResponse(['token' => $token], 200);
     }
 
-    public function login(Request $request, LoginRequest $loginRequest)
+    public function login(LoginService $loginService, Request $request, LoginRequest $loginRequest)
     {
-        $loginRequest->validated();
+        return $loginService->loginCheck($request, $loginRequest);
+    }
 
-        $user = User::where('email', $request->email)->first();
-        Auth::login($user);
+    public function logout(Request $request)
+    {
+        Auth::logout();
 
-        if (! $user || ! ($request->password == $user->password)) {
-            return 'Неверное имя пользователя или пароль';
-        }
-        return new JsonResponse(['token' => ($user->textToken()->first()->token)], 200);
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect(route('login-form'));
     }
 }

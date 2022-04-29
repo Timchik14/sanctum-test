@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\TextToken;
 
@@ -51,5 +52,15 @@ class User extends Authenticatable
     public function textToken()
     {
         return $this->hasOne(TextToken::class);
+    }
+
+    public function addToAuth()
+    {
+        Auth::login($this);
+    }
+
+    public function saveTextToken(TextToken $textToken)
+    {
+        $this->textToken()->save($textToken);
     }
 }

@@ -17,10 +17,16 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 //тут вход и создание токена
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+//форма выхода
+Route::get('/logout-form', [MainController::class, 'logout'])->name('logout-form');
+
+//логика выхода
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 //защищенный маршрут
-Route::middleware(['auth:sanctum', 'abilities:server:update'])
+Route::middleware(['auth:sanctum',])
     ->get('/protected', [MainController::class, 'protected']);
 
 //защищенный маршрут
-Route::middleware(['auth:sanctum', 'abilities:place-orders'])
+Route::middleware(['auth:sanctum',])
     ->get('/second-protected', [MainController::class, 'second']);
