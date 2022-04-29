@@ -18,4 +18,9 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 //защищенный маршрут
-Route::middleware('auth:sanctum')->get('/protected', [MainController::class, 'protected']);
+Route::middleware(['auth:sanctum', 'abilities:server:update'])
+    ->get('/protected', [MainController::class, 'protected']);
+
+//защищенный маршрут
+Route::middleware(['auth:sanctum', 'abilities:place-orders'])
+    ->get('/second-protected', [MainController::class, 'second']);

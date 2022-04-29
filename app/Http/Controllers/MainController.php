@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -17,8 +18,13 @@ class MainController extends Controller
         return view('login');
     }
 
-    public function protected()
+    public function protected(Request $request)
     {
         return view('show');
+    }
+
+    public function second()
+    {
+        return view('second');
     }
 }
