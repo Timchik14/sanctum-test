@@ -1,11 +1,8 @@
 <?php
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\PersonalAccessToken;
-use App\Http\Controllers\MainController;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\FilesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //логика загрузки
 Route::middleware(['auth:sanctum',])
-    ->post('/upload', [MainController::class, 'upload'])->name('upload');
+    ->post('/upload', [FilesController::class, 'upload'])->name('upload');
