@@ -30,3 +30,6 @@ Route::middleware(['auth:sanctum',])
 //защищенный маршрут
 Route::middleware(['auth:sanctum',])
     ->get('/second-protected', [MainController::class, 'second']);
+
+//форма загрузки
+Route::get('/file-form', [MainController::class, 'uploads'])->name('file-form');

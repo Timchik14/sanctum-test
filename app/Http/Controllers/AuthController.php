@@ -10,27 +10,26 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Services\LoginService;
-use App\Services\RegisterService;
 
 class AuthController extends Controller
 {
-    public function register(RegisterService $registerService, Request $request, RegisterRequest $registerRequest)
+    public function register(User $user, RegisterRequest $registerRequest)
     {
-        $user = User::create($registerService->dataPrepare($registerRequest));
-        $user->addToAuth();
+        $newUser = $user->createNew($registerRequest);
+        $newUser->addToAuth();
 
-        $token = $user
-            ->createToken($request->name, ['server:update'])
+        $token = $newUser
+            ->createToken($registerRequest->name)
             ->plainTextToken;
 
-        $user->saveTextToken(new TextToken(['token' => $token]));
+        $newUser->saveTextToken(new TextToken(['token' => $token]));
 
         return new JsonResponse(['token' => $token], 200);
     }
 
-    public function login(LoginService $loginService, Request $request, LoginRequest $loginRequest)
+    public function login(LoginService $loginService, LoginRequest $loginRequest)
     {
-        return $loginService->loginCheck($request, $loginRequest);
+        return $loginService->loginCheck($loginRequest);
     }
 
     public function logout(Request $request)

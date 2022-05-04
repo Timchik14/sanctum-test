@@ -4,15 +4,14 @@ namespace App\Services;
 
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginService
 {
-    public function loginCheck(Request $request, LoginRequest $loginRequest)
+    public function loginCheck(LoginRequest $loginRequest)
     {
         if (Auth::attempt($loginRequest->validated())) {
-            $request->session()->regenerate();
+            $loginRequest->session()->regenerate();
             return new JsonResponse(['token' => (auth()->user()->textToken()->first()->token)], 200);
         }
 
