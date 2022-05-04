@@ -10,13 +10,15 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Services\LoginService;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
     public function register(User $user, RegisterRequest $registerRequest)
     {
         $newUser = $user->createNew($registerRequest);
-        $newUser->addToAuth();
+//        $newUser->addToAuth();
+        Auth::login($newUser, true);
 
         $token = $newUser
             ->createToken($registerRequest->name)

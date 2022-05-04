@@ -29,7 +29,7 @@ class File extends Model
                 'updated_at' => now(),
             ];
         }
-        // вместо File::create($data); в каждом цикле
-        DB::table('files')->insert($data);
+
+        File::insert($data);
     }
 }
