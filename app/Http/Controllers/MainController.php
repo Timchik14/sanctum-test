@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FileRequest;
 use App\Services\MainService;
 use App\Models\File;
 use Illuminate\Http\Request;
-
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
 
@@ -42,11 +42,9 @@ class MainController extends Controller
         return $mainService->can('place-orders', auth()->user());
     }
 
-    public function upload(Request $request)
+    public function upload(File $file, FileRequest $fileRequest)
     {
-        $path = $request->file('file')->store('files');
-        $data = $request->all();
-        $data['path'] = $path;
-        File::create($data);
+        //store возвращает путь к файлу
+        $file->createNew($fileRequest->file('file')->store('files'));
     }
 }

@@ -13,4 +13,10 @@ class File extends Model
         'token',
         'path',
     ];
+
+    public function createNew($path)
+    {
+        $data['path'] = $path;
+        File::create($data);
+    }
 }
