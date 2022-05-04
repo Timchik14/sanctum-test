@@ -10,9 +10,9 @@
 
     @include('layouts.errors')
 
-    <p><input type="file" name="file" value="">Выберите файл</p>
+    <p><input type="file" name="files[]" multiple>Выберите файл</p>
     <button type="submit">Загрузить</button>
-    
+
 </form>
 
 <hr>

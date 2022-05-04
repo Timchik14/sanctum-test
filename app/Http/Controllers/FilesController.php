@@ -14,7 +14,6 @@ class FilesController extends Controller
 
     public function upload(File $file, FileRequest $fileRequest)
     {
-        //store возвращает путь к файлу
-        $file->createNew($fileRequest->file('file')->store('images'));
+        $file->createNew($fileRequest->file('files'));
     }
 }
