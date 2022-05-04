@@ -33,3 +33,4 @@ Route::middleware(['auth:sanctum',])
 
 //форма загрузки
 Route::get('/file-form', [MainController::class, 'uploads'])->name('file-form');
+    
