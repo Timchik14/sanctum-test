@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Requests\RegisterRequest;
+use App\Services\RegisterService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -44,11 +46,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function token()
-    {
-        return $this->morphOne(PersonalAccessToken::class, 'tokenable');
-    }
-
     public function textToken()
     {
         return $this->hasOne(TextToken::class);
@@ -62,5 +59,11 @@ class User extends Authenticatable
     public function saveTextToken(TextToken $textToken)
     {
         $this->textToken()->save($textToken);
+    }
+
+    public function createNew(RegisterRequest $registerRequest)
+    {
+        $registerService = new RegisterService();
+        return User::create($registerService->dataPrepare($registerRequest));
     }
 }

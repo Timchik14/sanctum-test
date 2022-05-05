@@ -3,24 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Services\MainService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 
 class MainController extends Controller
 {
     public function register()
     {
-        return view('register');
+        return view('auth.register');
     }
 
     public function login()
     {
-        return view('login');
+        return view('auth.login');
     }
 
     public function logout()
     {
-        return view('logout');
+        return view('auth.logout');
     }
 
     public function protected(MainService $mainService)

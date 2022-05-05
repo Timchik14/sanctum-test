@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Защищенный маршрут 2</title>
-</head>
-<body>
+@extends('layouts.master')
+@section('title', 'Защищенный маршрут 2')
+
+@section('content')
 <h1>Защищенный маршрут 2</h1>
 <hr>
-</body>
-</html>
+@endsection

@@ -1,10 +1,8 @@
 <?php
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\PersonalAccessToken;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\FilesController;
 
 /*
 |--------------------------------------------------------------------------
