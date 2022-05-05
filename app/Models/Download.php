@@ -24,8 +24,7 @@ class Download extends Model
         $file = new File();
         return $file->prepare($data);
     }
-
-
+    
     public function user()
     {
         return $this->belongsTo(User::class);
