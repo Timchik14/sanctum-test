@@ -18,8 +18,21 @@ class Download extends Model
         Download::create(['user_id' => auth()->id(), 'path' => $file->path]);
     }
 
+    public function getWithUser()
+    {
+        $data = Download::with('user')->get();
+        $file = new File();
+        return $file->prepare($data);
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
     }
 }
