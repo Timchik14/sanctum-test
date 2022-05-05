@@ -18,7 +18,3 @@ use App\Http\Controllers\FilesController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-//логика загрузки
-Route::middleware(['auth:sanctum',])
-    ->post('/upload', [FilesController::class, 'upload'])->name('upload');

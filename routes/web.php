@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FilesController;
+use App\Http\Controllers\FilesListController;
 
 //тут форма регистрации
 Route::get('/register', [MainController::class, 'register'])->name('registration-form');
@@ -31,5 +32,23 @@ Route::middleware(['auth:sanctum',])
 Route::middleware(['auth:sanctum',])
     ->get('/second-protected', [MainController::class, 'second']);
 
-//форма загрузки, маршрут с логикой в API
+//форма загрузки
 Route::get('/file-form', [FilesController::class, 'uploads'])->name('file-form');
+
+//логика загрузки
+Route::middleware(['auth:sanctum',])
+    ->post('/upload', [FilesController::class, 'upload'])->name('upload');
+
+//список файлов
+Route::get('/files-list', [FilesListController::class, 'index'])
+    ->middleware('auth');;
+
+//маршрут для скачивания
+Route::get('/download/{file}', [FilesListController::class, 'download'])
+    ->name('download')
+    ->middleware('auth');
+
+// список загрузок
+Route::get('/downloads', [FilesListController::class, 'show'])
+    ->name('downloads-show')
+    ->middleware('auth');;

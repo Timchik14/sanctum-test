@@ -17,7 +17,6 @@ class AuthController extends Controller
     public function register(User $user, RegisterRequest $registerRequest)
     {
         $newUser = $user->createNew($registerRequest);
-//        $newUser->addToAuth();
         Auth::login($newUser, true);
 
         $token = $newUser
