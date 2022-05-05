@@ -13,6 +13,7 @@
             {{ $file->name }}
         </a>
         <b>Формат:</b> {{ $file->format }}
+        <b>Группа:</b> {{ $file->group->name }}
     </div>
 @endforeach
 <hr>

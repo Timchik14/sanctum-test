@@ -11,6 +11,9 @@
     @include('layouts.errors')
 
     <p><input type="file" name="files[]" multiple>Выберите файл</p>
+
+    @include('groups.index')
+
     <button type="submit">Загрузить</button>
 
 </form>
