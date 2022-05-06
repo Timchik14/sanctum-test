@@ -44,8 +44,7 @@ class File extends Model
             $item['format'] = substr($path, -3, 3);
             $from = strripos($path, '/') + 1;
             $item['name'] = substr($path, $from, strlen($path) - $from - 4);
-            $item['group_name'] = File::with('group')->where('path', $path)->first()->group->name;
-//            dd($item['group']->group->name);
+            $item['group_name'] = $item->group->name;
         }
         return $collection;
     }
