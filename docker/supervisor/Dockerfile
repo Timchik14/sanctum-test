@@ -1,4 +1,4 @@
-FROM php:7.4-fpm-alpine
+FROM php:7.4-cli-alpine
 
 # Install dev dependencies
 RUN apk update \
@@ -24,10 +24,10 @@ RUN apk update \
         freetype \
         freetype-dev \
         postgresql-dev \
-        libmemcached-dev \
         curl \
         wget \
-        bash
+        bash \
+        libmemcached-dev
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
@@ -38,16 +38,18 @@ RUN docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) \
     intl \
     gd \
     bcmath \
-    pdo_pgsql \
     pcntl \
+    pdo_pgsql \
     sockets \
     zip
 RUN pecl channel-update pecl.php.net \
     && pecl install -o -f \
         redis \
-        memcached \
         event \
+        memcached \
     && rm -rf /tmp/pear \
     && echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini \
     && echo "extension=event.so" > /usr/local/etc/php/conf.d/event.ini \
     && echo "extension=memcached.so" > /usr/local/etc/php/conf.d/memcached.ini
+
+RUN apk add supervisor && mkdir /var/log/supervisor
