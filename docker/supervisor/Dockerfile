@@ -39,7 +39,7 @@ RUN docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) \
     gd \
     bcmath \
     pcntl \
-    pdo_pgsql \
+    pdo_mysql \
     sockets \
     zip
 RUN pecl channel-update pecl.php.net \
