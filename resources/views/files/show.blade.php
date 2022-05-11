@@ -4,6 +4,8 @@
 @section('content')
 <body>
 <h1>Список загрузок</h1>
+<b>Всего: </b> {{ $count }}
+<hr>
 
 @foreach($downloads as $download)
     <div>

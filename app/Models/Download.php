@@ -31,6 +31,11 @@ class Download extends Model
         return $file->prepare($data);
     }
 
+    public function getCount()
+    {
+        return Download::latest()->first()->common_count;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

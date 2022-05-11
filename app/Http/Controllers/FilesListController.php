@@ -24,6 +24,7 @@ class FilesListController extends Controller
     public function show(Download $download)
     {
         $downloads = $download->getWithUser();
-        return view('files.show', compact('downloads'));
+        $count = $download->getCount();
+        return view('files.show', compact(['downloads', 'count']));
     }
 }
