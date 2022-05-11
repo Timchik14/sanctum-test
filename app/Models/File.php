@@ -31,9 +31,14 @@ class File extends Model
         return $this->belongsTo(Group::class);
     }
 
-    public function getWithUser()
+    public function count()
     {
-        $data =  File::with(['user', 'group'])->get();
+        return $this->hasOne(DownloadCount::class);
+    }
+
+    public function getWithRelations()
+    {
+        $data =  File::with(['user', 'group', 'count'])->get();
         return $this->prepare($data);
     }
 
@@ -45,6 +50,7 @@ class File extends Model
             $from = strripos($path, '/') + 1;
             $item['name'] = substr($path, $from, strlen($path) - $from - 4);
             $item['group_name'] = $item->group->name;
+            $item['count'] = $item->count->count;
         }
         return $collection;
     }

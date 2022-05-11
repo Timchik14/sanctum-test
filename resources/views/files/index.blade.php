@@ -14,6 +14,7 @@
         </a>
         <b>Формат:</b> {{ $file->format }}
         <b>Группа:</b> {{ $file->group->name }}
+        <b>Скачиваний:</b> {{ $file->count }}
     </div>
 @endforeach
 <hr>
