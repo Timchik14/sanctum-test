@@ -15,7 +15,13 @@ class Download extends Model
 
     public function log(File $file)
     {
-        Download::create(['user_id' => auth()->id(), 'path' => $file->path, 'group_id' => $file->group_id]);
+        $commonCount = Download::count() + 1;
+        Download::create([
+            'user_id' => auth()->id(),
+            'path' => $file->path,
+            'group_id' => $file->group_id,
+            'common_count' => $commonCount,
+        ]);
     }
 
     public function getWithUser()
