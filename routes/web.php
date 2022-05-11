@@ -5,6 +5,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\FilesListController;
+use App\Http\Controllers\GroupsController;
 
 //тут форма регистрации
 Route::get('/register', [MainController::class, 'register'])->name('registration-form');
@@ -39,16 +40,17 @@ Route::get('/file-form', [FilesController::class, 'uploads'])->name('file-form')
 Route::middleware(['auth:sanctum',])
     ->post('/upload', [FilesController::class, 'upload'])->name('upload');
 
-//список файлов
-Route::get('/files-list', [FilesListController::class, 'index'])
-    ->middleware('auth');;
 
-//маршрут для скачивания
-Route::get('/download/{file}', [FilesListController::class, 'download'])
-    ->name('download')
-    ->middleware('auth');
+Route::middleware('auth')->group(function () {
 
-// список загрузок
-Route::get('/downloads', [FilesListController::class, 'show'])
-    ->name('downloads-show')
-    ->middleware('auth');;
+    //список файлов
+    Route::get('/files-list', [FilesListController::class, 'index']);
+
+    //маршрут для скачивания
+    Route::get('/download/{file}', [FilesListController::class, 'download'])
+        ->name('download');
+
+    // список загрузок
+    Route::get('/downloads', [FilesListController::class, 'show'])
+        ->name('downloads-show');
+});
