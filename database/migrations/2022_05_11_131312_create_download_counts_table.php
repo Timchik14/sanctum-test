@@ -15,7 +15,7 @@ class CreateDownloadCountsTable extends Migration
     {
         Schema::create('download_counts', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('file_id');
+            $table->unsignedInteger('file_id')->unique();
             $table->integer('count');
             $table->timestamps();
             $table

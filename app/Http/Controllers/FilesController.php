@@ -5,19 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FileRequest;
 use App\Models\File;
 use App\Models\Group;
-use App\Services\GroupsSynchronizer;
-use Illuminate\Http\Request;
 
 class FilesController extends Controller
 {
-    public function uploads()
+    public function uploads(Group $group)
     {
-        $groups = Group::all();
+        $groups = $group->getAll();
         return view('uploads', compact('groups'));
     }
 
-    public function upload(File $file, FileRequest $fileRequest, GroupsSynchronizer $groupsSynchronizer)
+    public function upload(File $file, FileRequest $fileRequest)
     {
-        return $file->createNew($fileRequest, $groupsSynchronizer);
+        return $file->createNew($fileRequest);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Models\DownloadCount;
+use App\Models\Download;
+use App\Services\DownloadService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 class DownloadsCounting extends Command
 {
@@ -17,19 +17,11 @@ class DownloadsCounting extends Command
         parent::__construct();
     }
 
-    public function handle()
+    public function handle(Download $download, DownloadService $downloadService)
     {
-        $downloads = DB::table('downloads')
-            ->select('file_id', DB::raw('count(*) as total'))
-            ->groupBy('file_id')
-            ->get();
-
-        foreach ($downloads as $download) {
-            $count = DownloadCount::firstOrNew([
-                'file_id' => $download->file_id,
-            ]);
-            $count->count = $download->total;
-            $count->save();
-        }
+        // получаем загрузки сгруппированные по файлу с количеством
+        $downloads = $download->getDownloads();
+        // сохраняем в бд количество загрузок
+        $downloadService->save($downloads);
     }
 }

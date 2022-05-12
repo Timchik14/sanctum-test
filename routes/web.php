@@ -1,14 +1,11 @@
 <?php
 
-use App\Models\DownloadCount;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\FilesListController;
 use App\Http\Controllers\GroupsController;
-use Illuminate\Support\Facades\DB;
-
 
 //тут форма регистрации
 Route::get('/register', [MainController::class, 'register'])->name('registration-form');
