@@ -17,6 +17,7 @@ class CreateDownloadsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('group_id');
+            $table->unsignedInteger('file_id');
             $table->string('path');
             $table->timestamps();
             $table
@@ -27,6 +28,10 @@ class CreateDownloadsTable extends Migration
                 ->foreign('group_id')
                 ->references('id')
                 ->on('groups');
+            $table
+                ->foreign('file_id')
+                ->references('id')
+                ->on('files');
         });
     }
 

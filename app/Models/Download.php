@@ -2,27 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Download extends Model
 {
-    use HasFactory;
-
-    protected $guarded = [
-
-    ];
+    public function getDownloads()
+    {
+        return Download::select('file_id', DB::raw('count(*) as total'))
+            ->groupBy('file_id')
+            ->get();
+    }
 
     public function log(File $file)
     {
-        Download::create(['user_id' => auth()->id(), 'path' => $file->path, 'group_id' => $file->group_id]);
-    }
-
-    public function getWithUser()
-    {
-        $data = Download::with(['user', 'group'])->get();
-        $file = new File();
-        return $file->prepare($data);
+        Download::create([
+            'user_id' => auth()->id(),
+            'path' => $file->path,
+            'group_id' => $file->group_id,
+            'file_id' => $file->id,
+        ]);
     }
 
     public function user()
