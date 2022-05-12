@@ -40,6 +40,10 @@ class FileService
 
     public function delete($file)
     {
-        Storage::delete($file->path);
+        // проверяем удалет ли из бд
+        if (! File::find($file->id)) {
+            Storage::delete($file->path);
+            return new JsonResponse(['delete' => 'success'], 200);
+        }
     }
 }

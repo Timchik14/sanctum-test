@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\File;
 use App\Models\Download;
 use App\Services\FileService;
-use Illuminate\Http\JsonResponse;
 
 class FilesListController extends Controller
 {
@@ -34,7 +33,6 @@ class FilesListController extends Controller
         // удаляем из бд
         $file->delete();
         // удаляем сам файл
-        $service->delete($file);
-        return new JsonResponse(['delete' => 'success'], 200);
+        return $service->delete($file);
     }
 }
