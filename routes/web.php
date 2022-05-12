@@ -53,4 +53,8 @@ Route::middleware('auth')->group(function () {
     // список загрузок
     Route::get('/downloads', [FilesListController::class, 'show'])
         ->name('downloads-show');
+
+    // удаление файла
+    Route::delete('download/{file}', [FilesListController::class, 'destroy'])
+        ->name('file.destroy');
 });

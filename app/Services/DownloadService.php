@@ -27,8 +27,8 @@ class DownloadService
             $item['format'] = substr($path, -3, 3);
             $from = strripos($path, '/') + 1;
             $item['name'] = substr($path, $from, strlen($path) - $from - 4);
-            $item['group_name'] = $item->group->name ?? null;
-            $item['count'] = $item->count->count ?? null;
+            $item['group_name'] = $item->group->name ?? 'no';
+            $item['count'] = $item->count->count ?? 0;
         }
         return $collection;
     }

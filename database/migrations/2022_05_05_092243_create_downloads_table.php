@@ -31,7 +31,7 @@ class CreateDownloadsTable extends Migration
             $table
                 ->foreign('file_id')
                 ->references('id')
-                ->on('files');
+                ->on('files')->onDelete('cascade');
         });
     }
 

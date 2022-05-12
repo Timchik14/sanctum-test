@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->hasOne(TextToken::class);
     }
 
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+
     public function addToAuth()
     {
         Auth::login($this);
