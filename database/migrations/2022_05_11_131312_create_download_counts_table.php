@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDownloadsTable extends Migration
+class CreateDownloadCountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,11 @@ class CreateDownloadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('downloads', function (Blueprint $table) {
+        Schema::create('download_counts', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('group_id');
-            $table->unsignedInteger('file_id');
-            $table->string('path');
+            $table->unsignedInteger('file_id')->unique();
+            $table->integer('count');
             $table->timestamps();
-            $table
-                ->foreign('user_id')
-                ->references('id')
-                ->on('users');
-            $table
-                ->foreign('group_id')
-                ->references('id')
-                ->on('groups');
             $table
                 ->foreign('file_id')
                 ->references('id')
@@ -42,6 +32,6 @@ class CreateDownloadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('downloads');
+        Schema::dropIfExists('download_counts');
     }
 }

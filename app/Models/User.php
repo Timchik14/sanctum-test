@@ -4,13 +4,11 @@ namespace App\Models;
 
 use App\Http\Requests\RegisterRequest;
 use App\Services\RegisterService;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\TextToken;
 
 class User extends Authenticatable
 {
@@ -51,6 +49,16 @@ class User extends Authenticatable
         return $this->hasOne(TextToken::class);
     }
 
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
     public function addToAuth()
     {
         Auth::login($this);
@@ -66,4 +74,24 @@ class User extends Authenticatable
         $registerService = new RegisterService();
         return User::create($registerService->dataPrepare($registerRequest));
     }
+
+    // проверяет есть ли роль
+    private function hasRole($role)
+    {
+        if ($this->roles->contains('slug', $role)) {
+            return true;
+        }
+        return false;
+    }
+
+    // проверяет на админа
+    public function isAdmin()
+    {
+        if ($this->hasRole('admin')) {
+            return true;
+        }
+        return false;
+    }
+
+    //сделать выдачу роли
 }

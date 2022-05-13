@@ -14,6 +14,12 @@
         </a>
         <b>Формат:</b> {{ $file->format }}
         <b>Группа:</b> {{ $file->group->name }}
+        <b>Скачиваний:</b> {{ $file->count }}
+        <form method="post" action="{{ route('file.destroy', ['file' => $file]) }}">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
     </div>
 @endforeach
 <hr>
