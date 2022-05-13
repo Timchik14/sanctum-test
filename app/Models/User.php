@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasMany(File::class);
     }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
     public function addToAuth()
     {
         Auth::login($this);
@@ -69,4 +74,24 @@ class User extends Authenticatable
         $registerService = new RegisterService();
         return User::create($registerService->dataPrepare($registerRequest));
     }
+
+    // проверяет есть ли роль
+    private function hasRole($role)
+    {
+        if ($this->roles->contains('slug', $role)) {
+            return true;
+        }
+        return false;
+    }
+
+    // проверяет на админа
+    public function isAdmin()
+    {
+        if ($this->hasRole('admin')) {
+            return true;
+        }
+        return false;
+    }
+
+    //сделать выдачу роли
 }

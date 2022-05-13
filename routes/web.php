@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
@@ -58,3 +59,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('delete/{file}', [FilesListController::class, 'destroy'])
         ->name('file.destroy');
 });
+
+// маршрут админа
+Route::middleware(['admin',])->get('/admin', [AdminController::class, 'index']);
