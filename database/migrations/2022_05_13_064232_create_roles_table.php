@@ -20,12 +20,6 @@ class CreateRolesTable extends Migration
             $table->string('slug');
             $table->timestamps();
         });
-        // создаем роли по умолчанию
-        Role::insert([
-            ['name' => 'Admin', 'slug' => 'admin'],
-            ['name' => 'User', 'slug' => 'user'],
-            ['name' => 'Guest', 'slug' => 'guest'],
-        ]);
     }
 
     /**
