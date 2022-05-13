@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use App\Models\Download;
+use App\Services\FileService;
 
 class FilesListController extends Controller
 {
     public function index(File $file)
     {
-        $files = $file->getWithRelations(['user', 'group', 'count']);
+        $files = auth()->user()->files()->with(['user', 'group', 'count'])->get();
+        $files = $file->prepare($files);
         return view('files.index', compact('files'));
     }
 
@@ -21,7 +23,16 @@ class FilesListController extends Controller
 
     public function show(Download $download)
     {
-        $downloads = $download->getWithRelations(['user', 'group']);
+        $downloads = $download->with(['user', 'group'])->get();
+        $downloads = $download->prepare($downloads);
         return view('files.show', compact('downloads'));
+    }
+
+    public function destroy(File $file, FileService $service)
+    {
+        // удаляем из бд
+        $file->delete();
+        // удаляем сам файл
+        return $service->delete($file);
     }
 }

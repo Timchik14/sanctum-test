@@ -14,9 +14,8 @@ class Model extends \Illuminate\Database\Eloquent\Model
 
     ];
 
-    public function getWithRelations($relations)
+    public function prepare($data)
     {
-        $data = $this::with($relations)->get();
         return DownloadService::prepare($data);
     }
 }

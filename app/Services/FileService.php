@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\File;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 
 class FileService
 {
@@ -35,5 +36,14 @@ class FileService
             return new JsonResponse(['upload' => 'success'], 200);
         }
         return new JsonResponse(['upload' => 'error'], 200);
+    }
+
+    public function delete($file)
+    {
+        // проверяем удалет ли из бд
+        if (! File::find($file->id)) {
+            Storage::delete($file->path);
+            return new JsonResponse(['delete' => 'success'], 200);
+        }
     }
 }
