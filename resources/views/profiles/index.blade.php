@@ -2,7 +2,7 @@
 @section('title', 'Профиль')
 
 @section('content')
-<body>
+
 <h1>Профиль</h1>
 <hr>
 

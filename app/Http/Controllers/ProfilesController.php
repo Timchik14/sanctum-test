@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
+use App\Services\ProfileService;
 
 class ProfilesController extends Controller
 {
@@ -22,8 +23,8 @@ class ProfilesController extends Controller
         return view('profiles.edit', compact('profile'));
     }
 
-    public function update(Profile $profile, ProfileRequest $request)
+    public function update(Profile $profile, ProfileRequest $request, ProfileService $service)
     {
-        return $profile->updateUserData($profile, $request);
+        return $service->updateUserData($profile, $request);
     }
 }

@@ -6,7 +6,8 @@
 <br>
 <br>
 Пол:
-<input type="text" id="sex" name="sex" value="{{ old('sex', $profile->sex) }}">
+<input type="radio" id="male" name="sex" {{ $profile->sex == 'male' ? 'checked' : '' }} value="male">муж
+<input type="radio" id="female" name="sex" {{ $profile->sex == 'female' ? 'checked' : '' }} value="female">жен
 <br>
 <br>
 Город:
@@ -15,7 +16,6 @@
 <br>
 Возраст:
 <input type="text" id="age" name="age" value="{{ old('', $profile->age) }}">
-
 <br>
 <br>
 <button type="submit">Принять</button>

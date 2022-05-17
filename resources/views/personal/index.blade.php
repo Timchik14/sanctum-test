@@ -2,7 +2,7 @@
 @section('title', 'Личный кабинет')
 
 @section('content')
-<body>
+
 <h1>Личный кабинет</h1>
 <ul>
     <li>

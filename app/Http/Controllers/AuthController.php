@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use App\Models\TextToken;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -13,9 +14,9 @@ use App\Services\LoginService;
 
 class AuthController extends Controller
 {
-    public function register(User $user, RegisterRequest $registerRequest)
+    public function register(User $user, RegisterRequest $registerRequest, UserService $service)
     {
-        $newUser = $user->createNew($registerRequest);
+        $newUser = $service->createNew($registerRequest);
         Auth::login($newUser, true);
 
         $token = $newUser

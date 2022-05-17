@@ -74,15 +74,6 @@ class User extends Authenticatable
         $this->textToken()->save($textToken);
     }
 
-    public function createNew(RegisterRequest $registerRequest)
-    {
-        $registerService = new RegisterService();
-        $user = User::create($registerService->dataPrepare($registerRequest));
-        $profile = new Profile();
-        $user->profile()->save($profile);
-        return $user;
-    }
-
     public function getUserData()
     {
         return auth()->user()->with('profile')->where('id', auth()->user()->id)->first();
