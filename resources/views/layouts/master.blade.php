@@ -5,6 +5,10 @@
 </head>
 <body>
 
+@auth()
+    <a href="{{ route('personal') }}">Личный кабинет</a>
+@endauth
+
 @yield('content')
 
 </body>
