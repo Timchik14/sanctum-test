@@ -40,10 +40,21 @@ class FileService
 
     public function delete($file)
     {
-        // проверяем удалет ли из бд
-        if (! File::find($file->id)) {
-            Storage::delete($file->path);
+        // проверяем на админа
+        if (auth()->user()->isAdmin()) {
+            // удаляем из бд
+            $file->forceDelete();
+            // проверяем удален ли из бд
+            if (! File::find($file->id)) {
+                // удаляем файл
+                Storage::delete($file->path);
+                return new JsonResponse(['delete' => 'success'], 200);
+            }
+        } else {
+            // soft delete
+            $file->delete();
             return new JsonResponse(['delete' => 'success'], 200);
         }
+        return new JsonResponse(['delete' => 'error'], 200);
     }
 }

@@ -18,6 +18,7 @@ class CreateFilesTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('group_id');
             $table->string('path');
+            $table->softDeletes();
             $table->timestamps();
             $table
                 ->foreign('user_id')
