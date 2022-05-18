@@ -30,9 +30,7 @@ class FilesListController extends Controller
 
     public function destroy(File $file, FileService $service)
     {
-        // удаляем из бд
-        $file->delete();
-        // удаляем сам файл
+        // удаляем файл
         return $service->delete($file);
     }
 }

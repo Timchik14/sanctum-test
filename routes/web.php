@@ -9,6 +9,7 @@ use App\Http\Controllers\FilesListController;
 use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\ProfilesController;
+use App\Http\Controllers\ModeratorController;
 
 //тут форма регистрации
 Route::get('/register', [MainController::class, 'register'])->name('registration-form');
@@ -60,13 +61,22 @@ Route::middleware('auth')->group(function () {
     // удаление файла
     Route::delete('delete/{file}', [FilesListController::class, 'destroy'])
         ->name('file.destroy');
+
+    // маршрут админа
+    Route::get('/admin', [AdminController::class, 'index']);
+
+    // личный кабинет
+    Route::get('/personal', [PersonalController::class, 'index'])
+        ->name('personal');
+
+    // ресурсный маршрут для работы с профилем
+    Route::resource('/profiles', ProfilesController::class);
+
+    // страница модератора
+    Route::get('/moderation', [ModeratorController::class, 'index'])
+        ->name('moderation');
+
+    // логика модерирования
+    Route::post('/moderation/{file}', [ModeratorController::class, 'moderate'])
+        ->name('moderate');
 });
-
-// маршрут админа
-Route::middleware(['admin'])->get('/admin', [AdminController::class, 'index']);
-
-// личный кабинет
-Route::middleware(['auth'])->get('/personal', [PersonalController::class, 'index'])->name('personal');
-
-// ресурсный маршрут для работы с профилем
-Route::middleware(['auth'])->resource('/profiles', ProfilesController::class);

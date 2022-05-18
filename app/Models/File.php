@@ -4,12 +4,20 @@ namespace App\Models;
 
 use App\Http\Requests\FileRequest;
 use App\Services\FileService;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class File extends Model
 {
+    use SoftDeletes;
+
     public function createNew(FileRequest $fileRequest)
     {
         return FileService::save($fileRequest);
+    }
+
+    public function scopeUnmoderated($query)
+    {
+        return $query->where('is_moderated', false);
     }
 
     public function user()
