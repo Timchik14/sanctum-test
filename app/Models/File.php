@@ -12,6 +12,11 @@ class File extends Model
         return FileService::save($fileRequest);
     }
 
+    public function scopeUnmoderated($query)
+    {
+        return $query->where('is_moderated', false);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
