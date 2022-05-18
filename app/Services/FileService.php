@@ -30,6 +30,8 @@ class FileService
                     'group_id' => $groupId,
                     'created_at' => now(),
                     'updated_at' => now(),
+                    'is_moderated' => false,
+                    'is_approved' => false,
                 ];
             }
             File::insert($data);
