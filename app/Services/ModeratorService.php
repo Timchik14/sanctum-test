@@ -10,7 +10,7 @@ class ModeratorService
 {
     public function updateFileInfo(File $file, Request $request)
     {
-        $isApproved = (bool)$request->approved;
+        $isApproved = (bool) $request->approved;
         $file->update(['is_moderated' => true, 'is_approved' => $isApproved]);
 
         return new JsonResponse(['update' => 'success'], 200);
