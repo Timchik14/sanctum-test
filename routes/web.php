@@ -7,6 +7,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\FilesListController;
 use App\Http\Controllers\GroupsController;
+use App\Http\Controllers\PersonalController;
+use App\Http\Controllers\ProfilesController;
 
 //тут форма регистрации
 Route::get('/register', [MainController::class, 'register'])->name('registration-form');
@@ -61,4 +63,10 @@ Route::middleware('auth')->group(function () {
 });
 
 // маршрут админа
-Route::middleware(['admin',])->get('/admin', [AdminController::class, 'index']);
+Route::middleware(['admin'])->get('/admin', [AdminController::class, 'index']);
+
+// личный кабинет
+Route::middleware(['auth'])->get('/personal', [PersonalController::class, 'index'])->name('personal');
+
+// ресурсный маршрут для работы с профилем
+Route::middleware(['auth'])->resource('/profiles', ProfilesController::class);

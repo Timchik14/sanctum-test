@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->hasOne(TextToken::class);
     }
 
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
     public function files()
     {
         return $this->hasMany(File::class);
@@ -69,10 +74,9 @@ class User extends Authenticatable
         $this->textToken()->save($textToken);
     }
 
-    public function createNew(RegisterRequest $registerRequest)
+    public function getUserData()
     {
-        $registerService = new RegisterService();
-        return User::create($registerService->dataPrepare($registerRequest));
+        return auth()->user()->with('profile')->where('id', auth()->user()->id)->first();
     }
 
     // проверяет есть ли роль
