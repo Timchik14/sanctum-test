@@ -18,6 +18,8 @@ class CreateFilesTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('group_id');
             $table->string('path');
+            $table->boolean('is_moderated');
+            $table->boolean('is_approved');
             $table->timestamps();
             $table
                 ->foreign('user_id')
